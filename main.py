@@ -36,6 +36,7 @@ def main():
     sys.stdout.flush()
     cleaned_input=clean_input(user_input)
     api=get_api(cleaned_input)
+    result=search_anime(api,cleaned_input)
     
     print(api)
 
@@ -45,6 +46,7 @@ def clean_input(x:str)->str:
     if not isinstance(x, str):
         raise TypeError("Anime name must be a string.")
     x = " ".join(x.strip().split())
+    x=x.lower()
     if not x :
         print("ENTER SOMETHING....")
         sys.exit(1)
@@ -64,6 +66,34 @@ def get_api(y:str)->str:
         print("NO API KEY FOUND ...")
         sys.exit(1)
     return api_key
+
+#SEARCH_ANIME ==========================================
+def search_anime(api,z:str,limit=5):
+    query = """
+    query ($search: String, $genre: String, $sort: [MediaSort], $perPage: Int) {
+      Page (page: 1, perPage: $perPage) {
+        media (type: ANIME, search: $search, genre: $genre, sort: $sort) {
+          title {
+            romaji
+            english
+          }
+          averageScore
+          seasonYear
+          genres
+        }
+      }
+    }
+    """
+# Default variables (ALL None)
+    variables = {
+      "search": None,
+      "genre": None,
+      "sort": ["POPULARITY_DESC"],
+      "perPage": limit,
+    }
+    if z in ["trending", "trend", "top"]:
+        variables["sort"] = ["TRENDING_DESC"]
+        print("🔥 Showing Trending Anime:\n")
 
 if __name__=="__main__":
     main()
