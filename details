@@ -1,0 +1,20 @@
+Anime-Search/
+
+ main.py
+
+ README.md
+
+ details/
+
+ API_DOCUMENTATION.md
+
+ PROJECT_STRUCTURE.md
+
+ CHANGELOG.md
+
+
+ 1st/
+
+ .env.example
+
+ .gitignore
