@@ -1,20 +1,39 @@
-Anime-Search/
+# 👨‍💻 About Me
 
- main.py
+Hi! I'm **Stoic**, a student and aspiring developer passionate about technology and programming.
 
- README.md
+## 🚀 Currently Learning
 
- details/
+- Python Programming
+- Data Structures & Algorithms
+- Machine Learning
+- Artificial Intelligence
+- API Integration
+- Git & GitHub
 
- API_DOCUMENTATION.md
+## 🛠️ Technical Skills
 
- PROJECT_STRUCTURE.md
+- **Languages:** Python
+- **Libraries:** NumPy, Pandas, Matplotlib
+- **Tools:** VS Code, Git, GitHub
+- **Other:** APIs, JSON
 
- CHANGELOG.md
+## 🎯 Interests
 
+- Artificial Intelligence & Machine Learning
+- Backend Development
+- Building Python Projects
+- Exploring New Technologies
+- Problem Solving
 
- 1st/
+## 🌱 My Goal
 
- .env.example
+My goal is to become a skilled AI/ML Engineer, build practical projects, and continuously improve my programming and problem-solving skills.
 
- .gitignore
+## 📌 Current Focus
+
+Learning Machine Learning fundamentals and building real-world Python projects to gain practical experience.
+
+---
+
+*Learning, building, and improving — one project at a time.*
