@@ -1,11 +1,10 @@
-
 import requests
 import sys
-import re
 import threading
 import itertools
 import os
 import json
+import time
 from dotenv import load_dotenv
 
 KNOWN_GENRES = {
@@ -59,7 +58,20 @@ def main():
 
         cleaned_input = clean_input(user_input)
         api = get_api(cleaned_input)
-        result = search_anime(api, cleaned_input)
+        spinning_flag=False
+        loading_animation=threading.Thread(target=loading , args=(lambda:spinning_flag,))
+        loading_animation.start()
+        try:
+            result = search_anime(api, cleaned_input)
+        except Exception as e :
+            print(f"ERROR {e}!!!")
+            spinning_flag=True
+            loading_animation.join()
+        finally:
+            spinning_flag=True
+            loading_animation.join()
+        sys.stdout.write("\r"+" "*40+"\r")
+        sys.stdout.flush()
 
         if result:
             save_results(cleaned_input, result)
@@ -116,7 +128,7 @@ def get_api(y: str) -> str:
 
 
 # SEARCH_ANIME ==========================================
-def search_anime(api, user_input: str, limit=5):
+def search_anime(URL, user_input: str, limit=5):
 
     query = """
     query ($search: String, $genre: String, $sort: [MediaSort], $perPage: Int) {
@@ -163,7 +175,7 @@ def search_anime(api, user_input: str, limit=5):
     try:
 
         response = requests.post(
-            url="https://graphql.anilist.co",
+            url=URL,
             json={
                 "query": query,
                 "variables": variables
@@ -334,6 +346,19 @@ def view_history():
 
     except (OSError, json.JSONDecodeError, KeyError, TypeError) as error:
         print(f"ERROR READING HISTORY: {error}")
+
+#spin loading ===========================================
+def loading(stop_flag):
+    frames = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
+    for frame in itertools.cycle(frames):
+        if stop_flag() :
+            break
+        sys.stdout.write(f"\rLoading...{frame}")
+        sys.stdout.write("\r")
+        sys.stdout.flush()
+        time.sleep(0.1)
+    sys.stdout.write("\r"+" "*40+"\r")
+    sys.stdout.flush()
 
 
 if __name__ == "__main__":
